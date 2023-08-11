@@ -11,6 +11,7 @@
 
 // Declared functions, all initialization are
 // located in difference .c files
+
 void Opening_Closing_Page();
 void ROCK_PAPER_SCISSORS();
 void gotoxy(short x, short y);

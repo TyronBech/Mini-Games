@@ -5,28 +5,27 @@ int main(){
     char choice;
     do{
         screen_display();
-        printf("Mini Games\n");
-        printf("A - ROCK-PAPER-SCISSORS\n");
-        printf("B - TIC-TAC-TOE\n");
-        printf("C - Exit\n");
-        printf("Enter your choice: ");
+        gotoxy(55, 4); printf("Mini Games");
+        gotoxy(48, 6); printf("A - ROCK-PAPER-SCISSORS");
+        gotoxy(48, 7); printf("B - TIC-TAC-TOE");
+        gotoxy(48, 8); printf("C - Exit");
+        gotoxy(48, 9); printf("Enter your choice: ");
         scanf("%c", &choice);
+        while((c = getchar()) != '\n' && c != EOF);
         choice = toupper(choice);
         switch (choice)
         {
         case 'A':
-            while((c = getchar()) != '\n' && c != EOF);
             ROCK_PAPER_SCISSORS();
             break;
         case 'B':
-            while((c = getchar()) != '\n' && c != EOF);
             break;
         case 'C':
             break;
-        default: printf("That is a invalid choice");
+        default: gotoxy(49, 11); printf("That is a invalid choice");
         }
-        c = getch();
         while((c = getchar()) != '\n' && c != EOF);
+        c = getch();
     }while(choice != 'C');
     system("cls");
     printf("Thank you for playing");

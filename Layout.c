@@ -15,3 +15,30 @@ void screen_display(){
         gotoxy(i, 27); printf("-");
     }
 }
+enum TEXT_COLOR {
+	MAGENTA = FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY,
+	YELLOW = FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY,
+	CYAN = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+	RED = FOREGROUND_RED | FOREGROUND_INTENSITY,
+	BLUE = FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+	GREEN = FOREGROUND_GREEN | FOREGROUND_INTENSITY,
+	RESET_COLOR = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
+};
+void Color(short colorCode){
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    switch (colorCode) {
+    case 1: SetConsoleTextAttribute(handle, MAGENTA);
+        break;
+    case 2: SetConsoleTextAttribute(handle, YELLOW);
+        break;
+    case 3: SetConsoleTextAttribute(handle, CYAN);
+        break;
+    case 4: SetConsoleTextAttribute(handle, RED);
+        break;
+    case 5: SetConsoleTextAttribute(handle, BLUE);
+        break;
+    case 6: SetConsoleTextAttribute(handle, GREEN);
+        break;
+    case 7: SetConsoleTextAttribute(handle, RESET_COLOR);
+    }
+}
