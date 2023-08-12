@@ -44,6 +44,7 @@ void ROCK_PAPER_SCISSORS(){
         if(again == 'Y')
             while((c = getchar()) != '\n' && c != EOF);
         else {
+            while((c = getchar()) != '\n' && c != EOF);
             break;
         }
     }

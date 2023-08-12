@@ -20,12 +20,13 @@ int main(){
             ROCK_PAPER_SCISSORS();
             break;
         case 'B':
+            TIC_TAC_TOE();
             break;
         case 'C':
             break;
         default: gotoxy(49, 11); printf("That is a invalid choice");
+            while((c = getchar()) != '\n' && c != EOF);
         }
-        while((c = getchar()) != '\n' && c != EOF);
     }while(choice != 'C');
     system("cls");
     printf("Thank you for playing");

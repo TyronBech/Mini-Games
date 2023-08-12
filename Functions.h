@@ -15,5 +15,6 @@
 
 void Opening_Closing_Page();
 void ROCK_PAPER_SCISSORS();
+void TIC_TAC_TOE();
 void gotoxy(short x, short y);
 void screen_display();
