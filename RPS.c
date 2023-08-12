@@ -7,7 +7,7 @@ void Player_Status_MSG(int result);
 
 void ROCK_PAPER_SCISSORS(){
     int c = 0;
-    char user_choice, computer_choice;
+    char user_choice, computer_choice, again;
     while(TRUE){
         screen_display();
         gotoxy(49, 4); printf("ROCK-PAPER-SCISSOR GAME\n");
@@ -17,6 +17,12 @@ void ROCK_PAPER_SCISSORS(){
         gotoxy(51, 9); printf("Enter your choice: ");
         scanf("%c", &user_choice);
         user_choice = toupper(user_choice);
+        if(user_choice != 'A' && user_choice != 'B' && user_choice != 'C') {
+            gotoxy(51, 10); printf("That is a invalid choice");
+            while((c = getchar()) != '\n' && c != EOF);
+            getch();
+            continue;
+        }
         computer_choice = Computer_Generated_Choice();
         for(int i = 5; i > 0; i--){
             gotoxy(60, 11); printf("%d", i);
@@ -30,8 +36,16 @@ void ROCK_PAPER_SCISSORS(){
         Hands(user_choice, computer_choice);
         int result = Identify_Winner(user_choice, computer_choice);
         Player_Status_MSG(result);
+        sleep(4);
         while((c = getchar()) != '\n' && c != EOF);
-        c = getch();
+        gotoxy(27, 25); printf("You want to play again? Enter Y if yes or any other keys if no: ");
+        scanf("%c", &again);
+        again = toupper(again);
+        if(again == 'Y')
+            while((c = getchar()) != '\n' && c != EOF);
+        else {
+            break;
+        }
     }
 }
 /// @brief The function will define who's the winner
@@ -255,42 +269,3 @@ void Player_Status_MSG(int result){
         gotoxy(17, 20); printf("   `--'          `-----'   `-----'           `------'      `-----'  `-----'  `------' ");
     }
 }
-/*
-__   _____ 
-\ \ / / __|
- \ V /\__ \
-  \_/ |___/
-*/
-/*
-printf("                                              (`\ .-') /`            .-') _  ");
-printf("                                               `.( OO ),'           ( OO ) ) ");
-printf("  ,--.   ,--..-'),-----.  ,--. ,--.         ,--./  .--.  ,-.-') ,--./ ,--,'  ");
-printf("   \  `.'  /( OO'  .-.  ' |  | |  |         |      |  |  |  |OO)|   \ |  |\  ");
-printf(" .-')     / /   |  | |  | |  | | .-')       |  |   |  |, |  |  \|    \|  | ) ");
-printf("(OO  \   /  \_) |  |\|  | |  |_|( OO )      |  |.'.|  |_)|  |(_/|  .     |/  ");
-printf(" |   /  /\_   \ |  | |  | |  | | `-' /      |         | ,|  |_.'|  |\    |   ");
-printf(" `-./  /.__)   `'  '-'  '('  '-'(_.-'       |   ,'.   |(_|  |   |  | \   |   ");
-printf("   `--'          `-----'   `-----'          '--'   '--'  `--'   `--'  `--'   ");
-*/
-/*
-printf("                                                                     .-')      ('-.   ");
-printf("                                                                    ( OO ).  _(  OO)  ");
-printf("  ,--.   ,--..-'),-----.  ,--. ,--.          ,--.      .-'),-----. (_)---\_)(,------. ");
-printf("   \  `.'  /( OO'  .-.  ' |  | |  |          |  |.-') ( OO'  .-.  '/    _ |  |  .---' ");
-printf(" .-')     / /   |  | |  | |  | | .-')        |  | OO )/   |  | |  |\  :` `.  |  |     ");
-printf("(OO  \   /  \_) |  |\|  | |  |_|( OO )       |  |`-' |\_) |  |\|  | '..`''.)(|  '--.  ");
-printf(" |   /  /\_   \ |  | |  | |  | | `-' /      (|  '---.'  \ |  | |  |.-._)   \ |  .--'  ");
-printf(" `-./  /.__)   `'  '-'  '('  '-'(_.-'        |      |    `'  '-'  '\       / |  `---. ");
-printf("   `--'          `-----'   `-----'           `------'      `-----'  `-----'  `------' ");
-*/
-/*
-printf("          .-') _        .-')            ('-.           .-') _             ('-.   ");
-printf("         (  OO) ) ,--. ( OO ).         ( OO ).-.      (  OO) )          _(  OO)  ");
-printf("  ,-.-') /     '._\  |(_)---\_)        / . --. /      /     '._ ,-.-') (,------. ");
-printf("  |  |OO)|'--...__)`-'/    _ |         | \-.  \       |'--...__)|  |OO) |  .---' ");
-printf("  |  |  \'--.  .--'   \  :` `.       .-'-'  |  |      '--.  .--'|  |  \ |  |     ");
-printf("  |  |(_/   |  |       '..`''.)       \| |_.'  |         |  |   |  |(_/(|  '--.  ");
-printf(" ,|  |_.'   |  |      .-._)   \        |  .-.  |         |  |  ,|  |_.' |  .--'  ");
-printf("(_|  |      |  |      \       /        |  | |  |         |  | (_|  |    |  `---. ");
-printf("  `--'      `--'       `-----'         `--' `--'         `--'   `--'    `------' ");
-*/

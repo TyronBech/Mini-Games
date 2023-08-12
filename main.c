@@ -3,6 +3,7 @@
 int main(){
     int c = 0;
     char choice;
+    Opening_Closing_Page();
     do{
         screen_display();
         gotoxy(55, 4); printf("Mini Games");
@@ -25,7 +26,6 @@ int main(){
         default: gotoxy(49, 11); printf("That is a invalid choice");
         }
         while((c = getchar()) != '\n' && c != EOF);
-        c = getch();
     }while(choice != 'C');
     system("cls");
     printf("Thank you for playing");
