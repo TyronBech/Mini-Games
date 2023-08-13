@@ -7,11 +7,10 @@
 			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
-				"-g",
-				"-fconcepts",
-				"${workspaceFolder}\\*.c",
 				"-o",
-				"${fileDirname}\\Mini_Games.exe"
+				"${fileDirname}\\Mini_Games.exe",
+				"${workspaceFolder}\\*.c",
+				"-O3"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
