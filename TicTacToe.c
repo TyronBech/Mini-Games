@@ -2,21 +2,30 @@
 
 void show_board(char inputs[]);
 int play();
-int input_check(char inputs[]);
+int check_winner(char inputs[], char symbol);
 int Winner_MSG(int result);
-void loading();
 
 void TIC_TAC_TOE(){
-    int c;
-    while(TRUE){
+    srand(time(NULL));
+    int play_again = 1;
+
+    while (play_again) {
         screen_display();
         gotoxy(51, 4); printf("TIC TAC TOE Game");
-        loading();
-        int again = Winner_MSG(play());
-        if(again == 1){
-            while((c = getchar()) != '\n' && c != EOF);
-            continue;
-        } else break;
+        sleep(1);
+        int result = play();
+        if (result == 1) {
+            gotoxy(46, 23); printf("Congratulations! You Win!!!");
+        } else if (result == 2) {
+            gotoxy(52, 23); printf("Sorry! You lose");
+        } else {
+            gotoxy(54, 23); printf("No one wins");
+        }
+        sleep(2);
+        gotoxy(28, 22); printf("You want to play again? Enter Y if yes or any other key if no: ");
+        char choice;
+        scanf(" %c", &choice);
+        play_again = (choice == 'Y' || choice == 'y');
     }
 }
 void show_board(char inputs[]){
@@ -37,180 +46,76 @@ void show_board(char inputs[]){
     gotoxy(48, 20); printf("       |       |       ");
 }
 int play(){
-    char inputs[9] = {
-        ' ', ' ', ' ',
-        ' ', ' ', ' ',
-        ' ', ' ', ' '
-    };
-    show_board(inputs);
-    char user_choice;
-    int computer_choice = 0, c, counter = 1;
-    srand(time(0));
-    int flag = rand() % 2;
-    if(flag == 0){
-        // Player first
-        gotoxy(53, 22); printf("Player first");
-    } else {
-        // Computer first
-        gotoxy(52, 22); printf("Computer first");
-    }
-    sleep(3);
-    while(TRUE){
-        system("cls");
-        screen_display();
-        gotoxy(51, 4); printf("TIC TAC TOE Game");
-        show_board(inputs);
-        if(flag == 0){
-            gotoxy(39, 22); printf("Enter the number of your choice(1 - 9): ");
-            scanf("%c", &user_choice);
-            if(!isdigit(user_choice)){
-                gotoxy(42, 23); printf("You input a non-integral character");
-                gotoxy(43, 24); printf("Please input numbers from (1 - 9)");
-                getch();
-                flag = 0;
-            } else {
-                switch (user_choice){
-                case '1': if(inputs[0] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[0] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '2': if(inputs[1] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[1] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '3': if(inputs[2] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[2] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '4': if(inputs[3] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[3] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '5': if(inputs[4] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[4] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '6': if(inputs[5] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[5] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '7': if(inputs[6] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[6] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '8': if(inputs[7] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[7] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                case '9': if(inputs[8] != ' '){
-                        gotoxy(42, 23); printf("The block was already been inputted");
-                        gotoxy(47, 24); printf("Please try another block");
-                        getch();
-                        flag = 0;
-                    } else {
-                        inputs[8] = 'X';
-                        flag = 1;
-                    }
-                    break;
-                default: gotoxy(47, 23); printf("That is a invalid choice");
-                }
-                while((c = getchar()) != '\n' && c != EOF);
-            }
-        } else {
-            while(TRUE){
-                computer_choice = rand() % 9;
-                if(inputs[computer_choice] != ' ') {
-                    flag = 1;
-                    break;
-                }
-                else {
-                    inputs[computer_choice] = 'O';
-                    flag = 0;
-                    break;
-                }
-            }
-        }
-        show_board(inputs);
-        int result = input_check(inputs);
-        if(result == 1) return 1;
-        else if(result == 2) return 2;
-        else {
-            counter++;
-            continue;
-        }
-        if(counter >= 9){
-            while((c = getchar()) != '\n' && c != EOF);
-            break;
-        }
-    }
-    return 0;
-}
-int input_check(char inputs[]){
-    if(inputs[0] == 'X' && inputs[1] == 'X' && inputs[2] == 'X') return 1;
-    else if(inputs[3] == 'X' && inputs[4] == 'X' && inputs[5] == 'X') return 1;
-    else if(inputs[6] == 'X' && inputs[7] == 'X' && inputs[8] == 'X') return 1;
-    else if(inputs[0] == 'X' && inputs[3] == 'X' && inputs[6] == 'X') return 1;
-    else if(inputs[1] == 'X' && inputs[4] == 'X' && inputs[7] == 'X') return 1;
-    else if(inputs[2] == 'X' && inputs[5] == 'X' && inputs[8] == 'X') return 1;
-    else if(inputs[0] == 'X' && inputs[4] == 'X' && inputs[8] == 'X') return 1;
-    else if(inputs[2] == 'X' && inputs[4] == 'X' && inputs[6] == 'X') return 1;
+    char inputs[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    const char player_symbol = 'X';
+    const char computer_symbol = 'O';
+    int counter = 0;
 
-    else if(inputs[0] == 'O' && inputs[1] == 'O' && inputs[2] == 'O') return 2;
-    else if(inputs[3] == 'O' && inputs[4] == 'O' && inputs[5] == 'O') return 2;
-    else if(inputs[6] == 'O' && inputs[7] == 'O' && inputs[8] == 'O') return 2;
-    else if(inputs[0] == 'O' && inputs[3] == 'O' && inputs[6] == 'O') return 2;
-    else if(inputs[2] == 'O' && inputs[4] == 'O' && inputs[7] == 'O') return 2;
-    else if(inputs[2] == 'O' && inputs[5] == 'O' && inputs[8] == 'O') return 2;
-    else if(inputs[0] == 'O' && inputs[4] == 'O' && inputs[8] == 'O') return 2;
-    else if(inputs[2] == 'O' && inputs[4] == 'O' && inputs[6] == 'O') return 2;
+    // Determine who goes first
+    int is_player_turn = rand() % 2 == 0;
+
+    while (counter < 9) {
+        system("clear");
+        screen_display();
+        show_board(inputs);
+        gotoxy(51, 4); printf("TIC TAC TOE Game");
+        if (is_player_turn) {
+            // Player's turn
+            int position;
+            do {
+                gotoxy(39, 22); printf("Enter the number of your choice (1 - 9): ");
+                if (scanf("%d", &position) != 1) {
+                    gotoxy(32, 23); printf("Invalid input. Please enter a number between 1 and 9.");
+                    while (getchar() != '\n'); // Clear input buffer
+                    system("clear");
+                    screen_display();
+                    show_board(inputs);
+                    gotoxy(51, 4); printf("TIC TAC TOE Game");
+                    sleep(3);
+                    position = -1; // Set an invalid position to repeat the loop
+                } else {
+                    position--; // Convert to 0-based index
+                    if(inputs[position] != ' '){
+                        gotoxy(42, 23); printf("The block was already been inputted");
+                        gotoxy(47, 24); printf("Please try another block");
+                        getch();
+                    } else if(position < 0 || position > 8){
+                        gotoxy(47, 23); printf("That is a invalid choice"); 
+                        getch();
+                    }
+                }
+            } while (position < 0 || position > 8 || inputs[position] != ' ');
+            inputs[position] = player_symbol;
+        } else {
+            // Computer's turn
+            int position;
+            do {
+                position = rand() % 9;
+            } while (inputs[position] != ' ');
+            inputs[position] = computer_symbol;
+        }  
+        if (check_winner(inputs, player_symbol)) {
+            show_board(inputs);
+            return 1; // Player wins
+        } else if (check_winner(inputs, computer_symbol)) {
+            show_board(inputs);
+            return 2; // Computer wins
+        }
+        counter++;
+        is_player_turn = !is_player_turn;
+    }
+    show_board(inputs);
+    return 0; // Draw
+}
+int check_winner(char inputs[], char symbol){
+    if(inputs[0] == symbol && inputs[1] == symbol && inputs[2] == symbol) return 1;
+    else if(inputs[3] == symbol && inputs[4] == symbol && inputs[5] == symbol) return 1;
+    else if(inputs[6] == symbol && inputs[7] == symbol && inputs[8] == symbol) return 1;
+    else if(inputs[0] == symbol && inputs[3] == symbol && inputs[6] == symbol) return 1;
+    else if(inputs[1] == symbol && inputs[4] == symbol && inputs[7] == symbol) return 1;
+    else if(inputs[2] == symbol && inputs[5] == symbol && inputs[8] == symbol) return 1;
+    else if(inputs[0] == symbol && inputs[4] == symbol && inputs[8] == symbol) return 1;
+    else if(inputs[2] == symbol && inputs[4] == symbol && inputs[6] == symbol) return 1;
     else return 0;
 }
 int Winner_MSG(int result){
@@ -227,15 +132,4 @@ int Winner_MSG(int result){
     scanf("%c", &again);
     again = toupper(again);
     return (again == 'Y') ? 1 : 0;
-}
-void loading(){
-    char symbols[] = {'|', '/', '-', '\\'};
-    srand(time(0));
-    short result = rand() % 4 + 1;
-    for(short i = 0; i < result; i++){
-        for(short j = 0; j < 4; j++){
-            gotoxy(55, 22); printf("Loading %c", symbols[j]);
-            usleep(200000);
-        }
-    }
 }
