@@ -7,8 +7,7 @@ int Winner_MSG(int result);
 
 void TIC_TAC_TOE(){
     srand(time(NULL));
-    int play_again = 1;
-
+    int play_again = 1, c;
     while (play_again) {
         screen_display();
         gotoxy(51, 4); printf("TIC TAC TOE Game");
@@ -25,6 +24,7 @@ void TIC_TAC_TOE(){
         gotoxy(28, 22); printf("You want to play again? Enter Y if yes or any other key if no: ");
         char choice;
         scanf(" %c", &choice);
+        while((c = getchar()) != '\n' && c != EOF);
         play_again = (choice == 'Y' || choice == 'y');
     }
 }
