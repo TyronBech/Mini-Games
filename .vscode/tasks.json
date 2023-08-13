@@ -8,9 +8,6 @@
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
-				"-std=c++20",
-				//"-std=c++2a",
-				//"-std=gnu++20",
 				"-fconcepts",
 				"${workspaceFolder}\\*.c",
 				"-o",
