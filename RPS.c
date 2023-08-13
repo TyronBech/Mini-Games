@@ -3,11 +3,13 @@
 int Identify_Winner(char user, char computer);
 char Computer_Generated_Choice();
 void Hands(char user, char computer);
-void Player_Status_MSG(int result);
-
+/// @brief RPS main function, all the needed program are
+/// done in this function by the help of other necessary
+/// functions of RPS.c
 void ROCK_PAPER_SCISSORS(){
     int c = 0;
     char user_choice, computer_choice, again;
+    // Looping the game until user decided to quit
     while(TRUE){
         screen_display();
         gotoxy(49, 4); printf("ROCK-PAPER-SCISSOR GAME\n");
@@ -15,6 +17,7 @@ void ROCK_PAPER_SCISSORS(){
         gotoxy(54, 7); printf("B - Paper");
         gotoxy(54, 8); printf("C - Scissors");
         gotoxy(51, 9); printf("Enter your choice: ");
+        // Getting user's input
         scanf("%c", &user_choice);
         user_choice = toupper(user_choice);
         if(user_choice != 'A' && user_choice != 'B' && user_choice != 'C') {
@@ -23,7 +26,9 @@ void ROCK_PAPER_SCISSORS(){
             getch();
             continue;
         }
+        // Generate computers choice
         computer_choice = Computer_Generated_Choice();
+        // sleeping for 1 second before showing the choices
         for(int i = 5; i > 0; i--){
             gotoxy(60, 11); printf("%d", i);
             sleep(1);
@@ -33,14 +38,31 @@ void ROCK_PAPER_SCISSORS(){
         gotoxy(55, 15); printf("\\ \\ / / __|");
         gotoxy(56, 16); printf("\\ V /\\__ \\");
         gotoxy(57, 17); printf("\\_/ |___/");
+        // Calling the Hands function to print the hands
+        // based on user's & computer's choice
         Hands(user_choice, computer_choice);
+        // Calling the Identify_Winner to know who wins
         int result = Identify_Winner(user_choice, computer_choice);
-        Player_Status_MSG(result);
+        // Checking the result of the function by switch
+        switch(result){
+        case 0:
+            gotoxy(56, 21); printf("It is a tie");
+            break;
+        case 1:
+            gotoxy(48, 21); printf("Congratulations! You win!!!");
+            break;
+        case 2:
+            gotoxy(54, 21); printf("Sorry! You lose");
+            break;
+        }
+        // Sleep for 4 seconds before asking the user is he/she wants to play again
         sleep(4);
         while((c = getchar()) != '\n' && c != EOF);
-        gotoxy(27, 25); printf("You want to play again? Enter Y if yes or any other keys if no: ");
+        gotoxy(29, 21); printf("You want to play again? Enter Y if yes or any other keys if no: ");
+        // Getting user's input
         scanf("%c", &again);
         again = toupper(again);
+        // Checking the input
         if(again == 'Y')
             while((c = getchar()) != '\n' && c != EOF);
         else {
@@ -233,40 +255,5 @@ void Hands(char user, char computer){
             gotoxy(73, i + 12); printf("%s\n", Hand_Scissor_Reverse[i]);
         }
         break;
-    }
-}
-void Player_Status_MSG(int result){
-    /// @link http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
-    sleep(5);
-    if(result == 0){
-        gotoxy(19, 12); printf("          .-') _        .-')            ('-.           .-') _             ('-.   ");
-        gotoxy(19, 13); printf("         (  OO) ) ,--. ( OO ).         ( OO ).-.      (  OO) )          _(  OO)  ");
-        gotoxy(19, 14); printf("  ,-.-') /     '._\\  |(_)---\\_)        / . --. /      /     '._ ,-.-') (,------. ");
-        gotoxy(19, 15); printf("  |  |OO)|'--...__)`-'/    _ |         | \\-.  \\       |'--...__)|  |OO) |  .---' ");
-        gotoxy(19, 16); printf("  |  |  \\'--.  .--'   \\  :` `.       .-'-'  |  |      '--.  .--'|  |  \\ |  |     ");
-        gotoxy(19, 17); printf("  |  |(_/   |  |       '..`''.)       \\| |_.'  |         |  |   |  |(_/(|  '--.  ");
-        gotoxy(19, 18); printf(" ,|  |_.'   |  |      .-._)   \\        |  .-.  |         |  |  ,|  |_.' |  .--'  ");
-        gotoxy(19, 19); printf("(_|  |      |  |      \\       /        |  | |  |         |  | (_|  |    |  `---. ");
-        gotoxy(19, 20); printf("  `--'      `--'       `-----'         `--' `--'         `--'   `--'    `------' ");
-    } else if(result == 1){
-        gotoxy(21, 12); printf("                                              (`\\ .-') /`            .-') _  ");
-        gotoxy(21, 13); printf("                                               `.( OO ),'           ( OO ) ) ");
-        gotoxy(21, 14); printf("  ,--.   ,--..-'),-----.  ,--. ,--.         ,--./  .--.  ,-.-') ,--./ ,--,'  ");
-        gotoxy(21, 15); printf("   \\  `.'  /( OO'  .-.  ' |  | |  |         |      |  |  |  |OO)|   \\ |  |\\  ");
-        gotoxy(21, 16); printf(" .-')     / /   |  | |  | |  | | .-')       |  |   |  |, |  |  \\|    \\|  | ) ");
-        gotoxy(21, 17); printf("(OO  \\   /  \\_) |  |\\|  | |  |_|( OO )      |  |.'.|  |_)|  |(_/|  .     |/  ");
-        gotoxy(21, 18); printf(" |   /  /\\_   \\ |  | |  | |  | | `-' /      |         | ,|  |_.'|  |\\    |   ");
-        gotoxy(21, 19); printf(" `-./  /.__)   `'  '-'  '('  '-'(_.-'       |   ,'.   |(_|  |   |  | \\   |   ");
-        gotoxy(21, 20); printf("   `--'          `-----'   `-----'          '--'   '--'  `--'   `--'  `--'   ");
-    } else {
-        gotoxy(17, 12); printf("                                                                     .-')      ('-.   ");
-        gotoxy(17, 13); printf("                                                                    ( OO ).  _(  OO)  ");
-        gotoxy(17, 14); printf("  ,--.   ,--..-'),-----.  ,--. ,--.          ,--.      .-'),-----. (_)---\\_)(,------. ");
-        gotoxy(17, 15); printf("   \\  `.'  /( OO'  .-.  ' |  | |  |          |  |.-') ( OO'  .-.  '/    _ |  |  .---' ");
-        gotoxy(17, 16); printf(" .-')     / /   |  | |  | |  | | .-')        |  | OO )/   |  | |  |\\  :` `.  |  |     ");
-        gotoxy(17, 17); printf("(OO  \\   /  \\_) |  |\\|  | |  |_|( OO )       |  |`-' |\\_) |  |\\|  | '..`''.)(|  '--.  ");
-        gotoxy(17, 18); printf(" |   /  /\\_   \\ |  | |  | |  | | `-' /      (|  '---.'  \\ |  | |  |.-._)   \\ |  .--'  ");
-        gotoxy(17, 19); printf(" `-./  /.__)   `'  '-'  '('  '-'(_.-'        |      |    `'  '-'  '\\       / |  `---. ");
-        gotoxy(17, 20); printf("   `--'          `-----'   `-----'           `------'      `-----'  `-----'  `------' ");
     }
 }

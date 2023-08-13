@@ -1,6 +1,8 @@
 #include "Functions.h"
-
-void Opening_Closing_Page(){
+#include<pthread.h>
+/// @brief The opening page will print the computer
+/// with related text inside before continuing the program
+void Opening_Page(){
    system("cls");
    gotoxy(22, 1); printf("             _______________________________________________");
    gotoxy(22, 2); printf("            /                                               \\");
@@ -31,6 +33,8 @@ void Opening_Closing_Page(){
    gotoxy(22, 27); printf(":-------------------------------------------------------------------------:");
    gotoxy(22, 28); printf("`---._.-------------------------------------------------------------._.---'");
    char CMD[] = "C:\\> executing mini_games.exe";
+   // printing and deprinting the underscore to look like
+   // someone is typing
    gotoxy(41, 5); printf("%c%c%c%c%c", CMD[0], CMD[1], CMD[2], CMD[3], CMD[4]);
    for(int i = 0; i < 6; i++){
       if(i % 2 == 0){
@@ -48,6 +52,8 @@ void Opening_Closing_Page(){
          usleep(200000);
       }
    }
+   // printing and deprinting the underscore to look like
+   // someone is typing
    gotoxy(70, 5); printf(" ");
    gotoxy(49, 8); printf("Welcome to the game_");
    gotoxy(68, 8); printf(" ");
@@ -68,34 +74,41 @@ void Opening_Closing_Page(){
    gotoxy(53, 12); printf("TIC TAC TOE");
    sleep(2);
 }
-
-/*
-             ________________________________________________
-            /                                                \
-           |    _________________________________________     |
-           |   |                                         |    |
-           |   |  C:\> executing mini_games.exe_         |    |
-           |   |                                         |    |
-           |   |                                         |    |
-           |   |           Welcome to the game           |    |
-           |   |                                         |    |
-           |   |             Available games:            |    |
-           |   |            Rock Paper Scissor           |    |
-           |   |               TIC TAC TOE               |    |
-           |   |                                         |    |
-           |   |                                         |    |
-           |   |                                         |    |
-           |   |                                         |    |
-           |   |_________________________________________|    |
-           |                                                  |
-            \_________________________________________________/
-                   \___________________________________/
-                ___________________________________________
-             _-'    .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.  --- `-_
-          _-'.-.-. .---.-.-.-.-.-.-.-.-.-.-.-.-.-.-.--.  .-.-.`-_
-       _-'.-.-.-. .---.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-`__`. .-.-.-.`-_
-    _-'.-.-.-.-. .-----.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-----. .-.-.-.-.`-_
- _-'.-.-.-.-.-. .---.-. .-------------------------. .-.---. .---.-.-.-.`-_
-:-------------------------------------------------------------------------:
-`---._.-------------------------------------------------------------._.---'
-*/
+// Threading for closing page
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int flag = 0;
+/// @brief The function will print the thank you message
+/// on the screen repeatedly while moving to the console
+/// @param arg parameter to thread
+/// @return return a NULL to the thread
+void *TY_Message(void *arg){
+   int drive1 = 1, drive2 = 1, i = 1, j = 1;
+   while(!flag){
+      system("cls");
+      if(drive1 == 0) i--;
+      else i++;
+      if(drive2 == 0) j--;
+      else j++;
+      pthread_mutex_lock(&mutex);
+      gotoxy(i, j); printf("Thank you for playing");
+      pthread_mutex_unlock(&mutex);
+      usleep(100000);
+      if(i >= 98) drive1 = 0;
+      if(j >= 27) drive2 = 0;
+      if(i <= 1) drive1 = 1;
+      if(j <= 1) drive2 = 1;
+   }
+   return NULL;
+}
+/// @brief The closing will call and execute the
+/// TY_Message in a thread and runs until user
+/// press any key
+void Closing_Page(){
+   pthread_t thank_you;
+    pthread_create(&thank_you, NULL, TY_Message, NULL);
+    gotoxy(49, 25); printf("Press any key to exit");
+    while(!kbhit()){}
+    getch();
+    flag = 1;
+    pthread_join(thank_you, NULL);
+}

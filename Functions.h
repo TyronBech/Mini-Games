@@ -13,7 +13,8 @@
 // Declared functions, all initialization are
 // located in difference .c files
 
-void Opening_Closing_Page();
+void Opening_Page();
+void Closing_Page();
 void ROCK_PAPER_SCISSORS();
 void TIC_TAC_TOE();
 void gotoxy(short x, short y);
